@@ -1,0 +1,33 @@
+# Titkok — SOHA nem kerülhetnek verziókövetésbe
+.env
+.env.*
+!.env.example
+server/cfg/90-local.cfg
+**/secrets.*
+
+# FiveM szerver-futásidő (a bináris és az adat nem a repóé)
+server/artifacts/
+server/cache/
+txData/
+*.log
+
+# Node / build
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# Adatbázis-dumpok
+*.sql.gz
+*.dump
+database/backups/
+
+# Fejlesztői környezet
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.default.json
+.idea/
+.DS_Store
+Thumbs.db
