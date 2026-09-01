@@ -257,8 +257,8 @@ nova-rp/
 │       └── 90-local.cfg.example     # gépspecifikus, gitignore-olt
 │
 ├── resources/
-│   ├── [vendor]/                    # pinned, módosítatlan third-party + LICENSE
-│   │   ├── ox_lib/
+│   ├── [vendor]/                    # NEM verziókövetett — `nova vendor:install` tölti le
+│   │   ├── ox_lib/                  # verzióra rögzítve + SHA-256 ellenőrzés (vendor.json)
 │   │   └── oxmysql/
 │   ├── [nova-core]/
 │   │   ├── nova_lib/ nova_config/ nova_locale/ nova_db/ nova_net/
@@ -303,7 +303,10 @@ nova-rp/
 
 **Miért `[vendor]` külön mappában:** a third-party kód módosítatlanul, saját licencével
 együtt, jól láthatóan elkülönül a sajátunktól — ez licencjogilag és auditálhatóság
-szempontjából is fontos.
+szempontjából is fontos. A tartalmát **nem verziókövetjük**: a `vendor.json` rögzíti a
+pontos verziót és a release-csomag SHA-256 összegét, a `nova vendor:install` pedig
+letölti és ellenőrzi. Így a függőség bitre meghatározott, a repo mégsem hízik, és egy
+kicserélt upstream csomag azonnal kiderül.
 
 **Miért generált a `20-resources.cfg`:** a feature flagek döntik el, mely resource induljon.
 Ha a `Features.Housing.Enabled = false`, a housing resource **el sem indul** — nem

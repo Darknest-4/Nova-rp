@@ -1,0 +1,37 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  90-local.cfg — TITKOK ÉS GÉPSPECIFIKUS BEÁLLÍTÁSOK
+#
+#  ⚠ EZ A FÁJL SOSEM KERÜLHET VERZIÓKÖVETÉSBE.
+#    A .gitignore kizárja a `cfg/90-local.cfg` nevet — a `.example` viszont
+#    (ez a fájl) verziókövetett, és nem tartalmaz valódi titkot.
+#
+#  Linuxon állítsd szűkre a jogosultságot:
+#      chmod 600 server/cfg/90-local.cfg
+#
+#  FONTOS: `set` = csak szerveroldal, `setr` = A KLIENS IS LÁTJA.
+#  Titok kizárólag `set`-tel adható meg. Soha ne `setr`.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Cfx licenckulcs ──────────────────────────────────────────────────────────
+# Ingyenesen igényelhető: https://portal.cfx.re/
+sv_licenseKey "ide_jon_a_licenckulcs"
+
+# Fejlesztői gépen a LAN mód kikerüli a licenckulcs-ellenőrzést, és a szerver
+# nem jelenik meg a publikus listán. Éles szerveren SOHA ne legyen bekapcsolva.
+# set sv_lan true
+
+# ── Adatbázis (Phase 4-től) ──────────────────────────────────────────────────
+# set mysql_connection_string "mysql://nova_app:JELSZO@127.0.0.1:3306/nova?charset=utf8mb4"
+
+# ── Integrációk (Phase 22-től) ───────────────────────────────────────────────
+# set nova:discord:token "..."
+# set nova:discord:webhook:admin "https://discord.com/api/webhooks/..."
+
+# ── Monitoring (Phase 24-től) ────────────────────────────────────────────────
+# A /perf végpont Prometheus-metrikákat ad; basic authtal védendő.
+# set sv_prometheusBasicAuthUser "prometheus"
+# set sv_prometheusBasicAuthPassword "..."
+
+# ── RCON ─────────────────────────────────────────────────────────────────────
+# Csak akkor add meg, ha tényleg használod, és erős jelszóval.
+# rcon_password "..."

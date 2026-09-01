@@ -1,6 +1,6 @@
 # ADR-0003: Production hosting platform — Windows vs. Linux
 
-- **Állapot:** `Proposed` — a végleges döntés a Phase 26 mérésére halasztható
+- **Állapot:** ✅ `Accepted` — elfogadva 2026-08-27 (a D) opció: a production platform a Phase 26 mérése után dől el)
 - **Dátum:** 2026-08-27
 - **Blokkoló:** nem (a fejlesztés Linuxon indulhat)
 

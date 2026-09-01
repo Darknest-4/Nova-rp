@@ -1,0 +1,12 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.zip binary
+*.ytd binary
+*.ydr binary
+*.ymap binary
+
+# A generált fájlok ne zajongjanak a diffben, de maradjanak verziókövetve.
+server/cfg/20-resources.cfg linguist-generated=false
+tools/package-lock.json -diff

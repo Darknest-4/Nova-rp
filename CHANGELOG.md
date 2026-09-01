@@ -7,7 +7,55 @@ a verziózás a [Semantic Versioning](https://semver.org/spec/v2.0.0.html) szeri
 
 ## [Unreleased]
 
-### Added
+### Added — Phase 2: Project Bootstrap
+
+- **`nova_lib` magkönyvtár** (`resources/[nova-core]/nova_lib/`):
+  - `Result` — tipizált siker/hiba érték nyelvfüggetlen hibakóddal (nem szöveggel),
+    hogy a hibaüzenetek lokalizálhatók legyenek
+  - `tbl` — `deepMerge`, `deepCopy` (ciklus-biztos), `flatten`, `get`/`set`
+    pont-útvonallal, determinisztikus `sortedKeys`
+  - `str` — `trim`, `split`, `startsWith`/`endsWith`, `interpolate`, `padRight`
+  - `schema` — deklaratív validátor: típus, tartomány, hossz, minta, enum,
+    beágyazott mezők, tömbök, alapértékek, **ismeretlen kulcs elutasítása**;
+    minden hibát összegyűjt, nem áll meg az elsőnél
+  - `env` — tipizált convar-olvasás, kötelező titkok ellenőrzése, titok-maszkolás
+- **`nova_bootstrap`** — indulási ellenőrzés (könyvtár, identitás, kötelező
+  biztonsági convarok) és startup banner, production-ben szűkített kimenettel.
+- **Szerver-konfiguráció** négy fájlra bontva (`server/cfg/`), minden biztonsági
+  beállításnál indoklással; a titkok a gitignore-olt `90-local.cfg`-be kerülnek.
+- **`nova` CLI** (`tools/`, Node 22 + TypeScript):
+  - `doctor` — környezet-ellenőrzés, minden hiányhoz pontos javító paranccsal
+  - `vendor:install` — függőségek telepítése rögzített verzióból,
+    **SHA-256 integritás-ellenőrzéssel**
+  - `vendor:verify` — telepítés és függőség-adatlapok megléte
+  - saját, függőség nélküli ZIP-kicsomagoló CRC-ellenőrzéssel és
+    zip-slip elleni védelemmel (a kimenete bájtra megegyezik a rendszer `unzip`-ével)
+- **Tesztkészlet:** 53 Lua unit teszt (busted, FXServer nélkül, CFX-mock ellen)
+  és 16 TypeScript teszt (vitest). Futásidő: 0,06 s + 0,4 s.
+- **CI** (`.github/workflows/ci.yml`): Lua lint és teszt, tooling típusellenőrzés
+  és teszt, vendor-integritás, titok-szivárgás ellenőrzése.
+- **Dokumentáció:** `QUICKSTART.md`, `docs/phases/phase-02-bootstrap.md`,
+  `docs/dependencies/{ox_lib,oxmysql}.md`.
+- Fejlesztői konfiguráció: `.editorconfig`, `.gitattributes`, `.nvmrc`,
+  `.luacheckrc`, `.luarc.json`, `.busted`.
+
+### Changed
+
+- **ADR-0001…0004 elfogadva.** Célplatform: FiveM Legacy, Enhanced-kompatibilis
+  kódolási szabályokkal. Alap: saját NOVA mag + LGPL könyvtárak (nem GPL-3.0
+  framework). Hosting: dev/staging Linux, a production platform mérés után dől el.
+  Skálázás: egy világ, shard-tudatos adatmodellel.
+- A vendor-függőségeket **nem verziókövetjük**: a `vendor.json` rögzíti a verziót
+  és a checksumot, a telepítés ellenőrzött letöltésből történik.
+
+### Ismert korlát
+
+- Az FXServer tényleges elindítása ebben a fejlesztői környezetben nem volt
+  futtatható (a `runtime.fivem.net` hálózati okból elérhetetlen), ezért a
+  `QUICKSTART.md` 6–7. lépése a hivatalos Cfx dokumentációból származik, nem
+  saját végrehajtásból. Ennek igazolása a Phase 3 első feladata.
+
+### Added — Phase 0–1: Research & Architecture
 
 - **Phase 0 — Research.** A jelenlegi FiveM / Cfx.re környezet feltérképezése a
   hivatalos dokumentáció forrásrepository-ja alapján

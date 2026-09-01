@@ -31,3 +31,13 @@ database/backups/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Szerver-konfiguráció példányok (a .example verziókövetett)
+server/server.cfg
+server/cfg/90-local.cfg
+
+# Third-party resource-ok: NEM verziókövetjük őket.
+# A `nova vendor:install` telepíti a vendor.json-ban rögzített verziót,
+# SHA-256 integritás-ellenőrzéssel — így a repo tiszta marad, a verzió mégis
+# pontosan meghatározott, és a vendor kód sosem módosul észrevétlenül.
+resources/[[]vendor[]]/

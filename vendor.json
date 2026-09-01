@@ -1,0 +1,32 @@
+{
+  "comment": [
+    "Third-party FiveM resource-ok rögzített (pinelt) verziói.",
+    "Minden tétel: pontos verzió + SHA-256 integritás-ellenőrzés + licenc + adatlap.",
+    "A `nova vendor:install` ezt olvassa. Verziót emelni csak külön PR-ben szabad,",
+    "a docs/dependencies/<név>.md adatlap frissítésével együtt.",
+    "A checksum ellenőrzött: a lenti értékek a megnevezett release-ekből származnak."
+  ],
+  "installDir": "resources/[vendor]",
+  "resources": [
+    {
+      "name": "ox_lib",
+      "version": "v3.39.0",
+      "repository": "https://github.com/overextended/ox_lib",
+      "asset": "https://github.com/overextended/ox_lib/releases/download/v3.39.0/ox_lib.zip",
+      "sha256": "1df6724dfc1d2d287299ff023a29c9e999eb77832cb918a4f1761d5c18a54501",
+      "license": "LGPL-3.0-or-later",
+      "docs": "docs/dependencies/ox_lib.md",
+      "purpose": "UI-komponensek, cache, callbackek, zónák. A lokalizációt NEM erre építjük."
+    },
+    {
+      "name": "oxmysql",
+      "version": "v2.14.1",
+      "repository": "https://github.com/overextended/oxmysql",
+      "asset": "https://github.com/overextended/oxmysql/releases/download/v2.14.1/oxmysql.zip",
+      "sha256": "29fa0992174257f548dc1ef8dc9431fd1ce995696b5c58fbe98ca0cb6a0e6aba",
+      "license": "LGPL-3.0-or-later",
+      "docs": "docs/dependencies/oxmysql.md",
+      "purpose": "MySQL/MariaDB réteg (node-mysql2). A nova_db ezt burkolja be."
+    }
+  ]
+}

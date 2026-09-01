@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+# A futó munkák megszakítása, ha ugyanarra az ágra új commit érkezik.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lua:
+    name: Lua — lint és unit teszt
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lua 5.4 és luarocks telepítése
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends lua5.4 liblua5.4-dev luarocks
+
+      - name: Lua eszközök gyorsítótára
+        uses: actions/cache@v4
+        with:
+          path: ~/.luarocks
+          key: luarocks-${{ runner.os }}-busted-2.3.0-luacheck-1.2.0
+
+      - name: busted és luacheck telepítése
+        run: |
+          luarocks --lua-version=5.4 --local install busted 2.3.0
+          luarocks --lua-version=5.4 --local install luacheck
+          echo "$HOME/.luarocks/bin" >> "$GITHUB_PATH"
+
+      - name: Statikus elemzés
+        run: luacheck resources tests
+
+      - name: Unit tesztek (FXServer nélkül, CFX-mock ellen)
+        run: busted
+
+  tools:
+    name: Tooling — típusellenőrzés és teszt
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: tools
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: tools/package-lock.json
+
+      - run: npm ci
+      - name: Típusellenőrzés
+        run: npm run typecheck
+      - name: Unit tesztek
+        run: npm test
+      - name: npm audit (magas súlyosságtól)
+        run: npm audit --audit-level=high
+
+  vendor:
+    name: Függőségek — integritás-ellenőrzés
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: tools/package-lock.json
+
+      - run: npm ci
+        working-directory: tools
+
+      # Letölti a vendor.json-ban rögzített verziókat, és ELLENŐRZI a SHA-256
+      # összeget. Ha egy release-csomagot kicseréltek, ez a lépés bukik el.
+      - name: Vendor telepítés (checksum-ellenőrzéssel)
+        run: npm run vendor:install
+        working-directory: tools
+
+      - name: Vendor ellenőrzés (adatlapok megléte)
+        run: npm run vendor:verify
+        working-directory: tools
+
+  secrets:
+    name: Titok-szivárgás ellenőrzése
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Olcsó, de sokat érő védelem. A valódi titokkeresést (gitleaks) a
+      # Phase 23-ban vesszük fel — ez itt a konkrét, ismert kockázatot fedi le.
+      - name: Titkos konfigurációs fájlok nem lehetnek verziókövetve
+        run: |
+          if git ls-files --error-unmatch server/cfg/90-local.cfg server/server.cfg 2>/dev/null; then
+            echo "::error::Titkos konfigurációs fájl került verziókövetésbe."
+            exit 1
+          fi
+          echo "OK — a titkos fájlok nincsenek verziókövetve."
+
+      - name: Licenckulcs-minta keresése a verziókövetett fájlokban
+        run: |
+          if git grep -nE 'sv_licenseKey[[:space:]]+"[A-Za-z0-9]{20,}"' -- ':!*.example' ':!docs/**'; then
+            echo "::error::Valódinak tűnő licenckulcs a repóban."
+            exit 1
+          fi
+          echo "OK — nincs beégetett licenckulcs."

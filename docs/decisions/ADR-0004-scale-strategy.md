@@ -1,6 +1,6 @@
 # ADR-0004: Skálázási stratégia
 
-- **Állapot:** `Proposed`
+- **Állapot:** ✅ `Accepted` — elfogadva 2026-08-27
 - **Dátum:** 2026-08-27
 - **Blokkoló:** nem, de az adatmodellt már a Phase 4-ben befolyásolja
 

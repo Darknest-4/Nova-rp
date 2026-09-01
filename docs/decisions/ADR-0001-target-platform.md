@@ -1,8 +1,8 @@
 # ADR-0001: Célplatform — FiveM Legacy vs. FiveM for GTAV Enhanced
 
-- **Állapot:** `Proposed` — jóváhagyásra vár
+- **Állapot:** ✅ `Accepted` — elfogadva 2026-08-27
 - **Dátum:** 2026-08-27
-- **Blokkoló:** igen (a Phase 2 nem indulhat nélküle)
+- **Döntés:** a lentebb javasolt **C) opció** (Legacy elsődleges + Enhanced-kompatibilis kód)
 
 ## Kontextus
 
@@ -56,9 +56,11 @@ különbségek (részletesen: [platform-research.md](../00-research/platform-res
 - ➖ Kettős tesztelés, absztrakciós költség.
 - ➖ Néhány Enhanced-előny (rate limiterek) csak akkor él, ha ott futunk.
 
-## Döntés (javaslat)
+## Döntés
 
 > **C) — Legacy az elsődleges célplatform, de a kód Enhanced-kompatibilisen íródik.**
+>
+> *Elfogadva: 2026-08-27.*
 
 Ez a gyakorlatban ezt jelenti:
 

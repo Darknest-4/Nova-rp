@@ -1,0 +1,12 @@
+-- busted konfiguráció. Futtatás a repository gyökeréből:  busted
+-- (A tesztek a gyökérhez képesti útvonalakkal töltik be a modulokat.)
+return {
+    _all = {
+        lua = 'lua5.4',
+    },
+    default = {
+        ROOT = { 'tests/unit' },
+        pattern = '_spec',
+        verbose = true,
+    },
+}

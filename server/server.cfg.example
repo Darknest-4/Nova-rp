@@ -1,0 +1,27 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  NOVA RP — server.cfg
+#
+#  Ez a fájl csak összefűzi a darabokat. Ne írj bele közvetlenül beállítást:
+#  minden a cfg/ alatti fájlok valamelyikébe tartozik, hogy verziókövethető
+#  és diffelhető maradjon.
+#
+#  Használat:
+#    1. másold ide server.cfg néven          cp server.cfg.example server.cfg
+#    2. hozd létre a titkokat tartalmazó fájlt:
+#                                            cp cfg/90-local.cfg.example cfg/90-local.cfg
+#    3. töltsd ki a 90-local.cfg-t (licenckulcs, DB jelszó)
+#    4. indítsd a szervert a QUICKSTART.md szerint
+#
+#  A server.cfg és a cfg/90-local.cfg gitignore-olt — titok nem kerül a repóba.
+# ─────────────────────────────────────────────────────────────────────────────
+
+exec cfg/00-base.cfg
+exec cfg/10-security.cfg
+
+# Titkok és gépspecifikus beállítások. A biztonsági beállítások UTÁN fut,
+# hogy fejlesztői gépen szándékosan felül lehessen írni őket (pl. sv_lan).
+exec cfg/90-local.cfg
+
+# Resource-lista. A Phase 6-tól ezt a `nova resources:generate` parancs
+# állítja elő a feature flagekből — addig kézzel karbantartott.
+exec cfg/20-resources.cfg

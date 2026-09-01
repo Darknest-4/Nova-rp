@@ -17,13 +17,13 @@ hogy okosnak tűnjünk, hanem hogy **fél év múlva is tudjuk, miért így csin
 
 | # | Cím | Állapot | Blokkol? |
 | --- | --- | --- | --- |
-| [0001](ADR-0001-target-platform.md) | Célplatform: FiveM Legacy vs. GTAV Enhanced | `Proposed` | **Igen** |
-| [0002](ADR-0002-framework-base.md) | Saját mag vs. meglévő framework (Qbox / ox_core / ESX) | `Proposed` | **Igen** |
-| [0003](ADR-0003-hosting-platform.md) | Production hosting: Windows vs. Linux | `Proposed` | Nem (Phase 26-ig halasztható) |
-| [0004](ADR-0004-scale-strategy.md) | Skálázási stratégia: egy világ + shard-tudatos adatmodell | `Proposed` | Nem |
+| [0001](ADR-0001-target-platform.md) | Célplatform: FiveM Legacy vs. GTAV Enhanced | ✅ `Accepted` | — |
+| [0002](ADR-0002-framework-base.md) | Saját mag vs. meglévő framework (Qbox / ox_core / ESX) | ✅ `Accepted` | — |
+| [0003](ADR-0003-hosting-platform.md) | Production hosting: Windows vs. Linux | ✅ `Accepted` (mérésig halasztott döntés) | — |
+| [0004](ADR-0004-scale-strategy.md) | Skálázási stratégia: egy világ + shard-tudatos adatmodell | ✅ `Accepted` | — |
 
-A **blokkoló** ADR-ek nélkül a Phase 2 (Project Bootstrap) nem indulhat el, mert
-a repository szerkezetét és a függőségeket határozzák meg.
+Az ADR-0001 és ADR-0002 blokkoló volt: nélkülük a Phase 2 nem indulhatott.
+Mindkettő elfogadva 2026-08-27-én, a javasolt opcióval.
 
 ## Sablon
 

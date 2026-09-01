@@ -1,8 +1,8 @@
 # ADR-0002: Saját mag vs. meglévő framework (Qbox / ox_core / ESX)
 
-- **Állapot:** `Proposed` — jóváhagyásra vár
+- **Állapot:** ✅ `Accepted` — elfogadva 2026-08-27
 - **Dátum:** 2026-08-27
-- **Blokkoló:** igen — ez határozza meg a repository szerkezetét, a licencet és a roadmapet
+- **Döntés:** a lentebb javasolt **A) opció** (saját NOVA mag + LGPL könyvtárak)
 
 ## Kontextus
 
@@ -73,17 +73,24 @@ az olyan terjesztést (titkosítás, obfuszkáció), ami a licenc jogait korlát
 - ➖ GPL-3.0. Régi architektúra, sok legacy minta, ami pont az ellentéte a
   specifikáció teljesítmény- és biztonsági elvárásainak.
 
-## Döntés (javaslat)
+## Döntés
 
 > **A) Saját NOVA mag + LGPL könyvtárak (ox_lib, oxmysql), opcionális kompatibilitási
 > bridge-ekkel.**
+>
+> *Elfogadva: 2026-08-27. A projekt licence ezzel szabadon megválasztható marad;
+> a konkrét licencet a Phase 3 végéig kell kiválasztani.*
 
 Konkrétan:
 
 1. A `nova_core` teljesen saját (config, locale, permission, db, net, logging,
    health, metrics, scheduler, world).
-2. `vendor/` alatt **módosítatlan**, pinned `ox_lib` és `oxmysql`, licencszöveggel
-   és attribúcióval együtt.
+2. `resources/[vendor]/` alatt **módosítatlan**, verzióra rögzített `ox_lib` és
+   `oxmysql`, a licencszövegükkel és attribúciójukkal együtt. A vendor kódot
+   **nem** verziókövetjük: a `nova vendor:install` tölti le a `vendor.json`-ban
+   rögzített verziót, **SHA-256 integritás-ellenőrzéssel** — így a repo tiszta
+   marad, a verzió mégis bitre meghatározott, és a vendor kód nem módosulhat
+   észrevétlenül.
 3. Az `ox_lib`-et **UI-, cache-, zóna- és callback-célra** használjuk, a lokalizációra
    **nem** (mert nem tudja, amit kell).
 4. GPL-3.0 gameplay-resource **nem** kerül a projektbe, amíg ez az ADR érvényes.
