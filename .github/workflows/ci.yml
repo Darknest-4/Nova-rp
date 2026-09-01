@@ -32,6 +32,15 @@ jobs:
         run: |
           luarocks --lua-version=5.4 --local install busted 2.3.0
           luarocks --lua-version=5.4 --local install luacheck
+          # A --local telepítés a $HOME/.luarocks alá kerül, ami nincs benne a
+          # Lua alapértelmezett modulkeresési útvonalában. A PATH önmagában
+          # kevés: a `busted` indul, de a `require 'busted.runner'` elbukna.
+          # A luarocks maga adja meg a helyes LUA_PATH/LUA_CPATH értékeket.
+          eval "$(luarocks --lua-version=5.4 path --bin)"
+          {
+            echo "LUA_PATH=$LUA_PATH"
+            echo "LUA_CPATH=$LUA_CPATH"
+          } >> "$GITHUB_ENV"
           echo "$HOME/.luarocks/bin" >> "$GITHUB_PATH"
 
       - name: Statikus elemzés

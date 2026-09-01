@@ -101,6 +101,14 @@ statikus elemzés mindkét nyelvre.
 | **CI** | 4 job: Lua, tooling, vendor-integritás, titok-szivárgás |
 | **Dokumentáció** | `QUICKSTART.md`, 2 függőség-adatlap, ez a fázis-riport |
 
+### CI — tényleges futtatási eredmény
+
+Az első CI-futás (`run #1`) két jobot elbukott; mindkettő valós hiba volt,
+javítva (lásd lentebb a hibatáblázatot). A `Függőségek — integritás-ellenőrzés`
+és a `Titok-szivárgás ellenőrzése` job elsőre zöld volt — utóbbi azt is
+igazolja, hogy a vendor-telepítés checksum-ellenőrzéssel **tiszta gépen is**
+lefut, nem csak a fejlesztői környezetben.
+
 ### Tesztek — tényleges futtatási eredmény
 
 ```
@@ -170,6 +178,12 @@ azonos tartalom minden fájlnál**.
 | --- | --- | --- |
 | A luacheck a `resources/[vendor]/**` mintát nem zárta ki | A `[...]` a glob-mintában karakterosztály | Escape-elt minta: `resources/[[]vendor[]]/**` — ugyanez a `.gitignore`-ban is |
 | Az `fxmanifest.lua` direktívái "ismeretlen globálisként" jelentek meg | Deklaratív DSL, nem közönséges Lua | Külön `files['**/fxmanifest.lua']` szabály a `.luacheckrc`-ben |
+| **CI:** a `busted` elindult, de a `require 'busted.runner'` elbukott | A `--local` luarocks-telepítés a `$HOME/.luarocks` alá kerül, ami nincs a Lua modulkeresési útvonalán; a `PATH` önmagában kevés | `eval "$(luarocks path --bin)"`, majd a `LUA_PATH`/`LUA_CPATH` átadása a `$GITHUB_ENV`-en keresztül |
+| **CI:** az `npm audit` 1 kritikus + 1 magas sebezhetőséget talált | A `vitest 2.x` sérülékeny `vite`/`esbuild` verziót húzott be (fejlesztői függőség) | Frissítés `vitest 4.1.11`-re → **0 sebezhetőség**. Az auditot nem lazítottuk fel: a `--audit-level=high` marad |
+
+Mindkét CI-hiba **valós** volt, és csak azért nem derült ki helyben, mert a
+fejlesztői környezetben rendszerszintű (nem `--local`) luarocks-telepítés volt.
+Ez maga is tanulság: **a CI az igazi referenciakörnyezet**, nem a fejlesztői gép.
 
 ### Teljesítmény
 

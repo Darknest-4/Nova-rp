@@ -39,6 +39,13 @@ a verziózás a [Semantic Versioning](https://semver.org/spec/v2.0.0.html) szeri
 - Fejlesztői konfiguráció: `.editorconfig`, `.gitattributes`, `.nvmrc`,
   `.luacheckrc`, `.luarc.json`, `.busted`.
 
+### Fixed
+
+- **CI:** a `--local` luarocks-telepítés után a `busted` nem találta a saját
+  moduljait; a `LUA_PATH`/`LUA_CPATH` átadása megoldja.
+- **CI:** `npm audit` — a `vitest 2.x` sérülékeny `vite`/`esbuild` verziót hozott
+  magával. Frissítve `vitest 4.1.11`-re: 0 sebezhetőség, az audit-küszöb változatlan.
+
 ### Changed
 
 - **ADR-0001…0004 elfogadva.** Célplatform: FiveM Legacy, Enhanced-kompatibilis
