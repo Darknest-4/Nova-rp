@@ -103,11 +103,19 @@ statikus elemzés mindkét nyelvre.
 
 ### CI — tényleges futtatási eredmény
 
-Az első CI-futás (`run #1`) két jobot elbukott; mindkettő valós hiba volt,
-javítva (lásd lentebb a hibatáblázatot). A `Függőségek — integritás-ellenőrzés`
-és a `Titok-szivárgás ellenőrzése` job elsőre zöld volt — utóbbi azt is
-igazolja, hogy a vendor-telepítés checksum-ellenőrzéssel **tiszta gépen is**
-lefut, nem csak a fejlesztői környezetben.
+| Futás | Eredmény |
+| --- | --- |
+| `run #1` | ❌ 2 job elbukott (Lua unit teszt, npm audit) — mindkettő valós hiba |
+| `run #2` | ✅ **mind a 4 job zöld** |
+
+Az első futás hibáit a lenti hibatáblázat részletezi. A `Függőségek —
+integritás-ellenőrzés` job már elsőre zöld volt: ez igazolja, hogy a
+checksum-ellenőrzött vendor-telepítés **tiszta gépen is** lefut, nem csak a
+fejlesztői környezetben.
+
+Ezzel a Phase 2 minden állítása mögött vagy saját futtatás, vagy CI-futás áll —
+egyetlen kivétellel, amit a lenti "igazolt és nem igazolt lépések" táblázat
+külön megnevez (az FXServer tényleges indítása).
 
 ### Tesztek — tényleges futtatási eredmény
 

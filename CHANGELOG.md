@@ -46,6 +46,8 @@ a verziózás a [Semantic Versioning](https://semver.org/spec/v2.0.0.html) szeri
 - **CI:** `npm audit` — a `vitest 2.x` sérülékeny `vite`/`esbuild` verziót hozott
   magával. Frissítve `vitest 4.1.11`-re: 0 sebezhetőség, az audit-küszöb változatlan.
 
+  A javítások után a CI mind a négy jobja zöld (`run #2`).
+
 ### Changed
 
 - **ADR-0001…0004 elfogadva.** Célplatform: FiveM Legacy, Enhanced-kompatibilis
